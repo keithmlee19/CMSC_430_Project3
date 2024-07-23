@@ -1,7 +1,7 @@
 /* CMSC 430 Compiler Theory and Design
    Project 3 Skeleton
-   UMGC CITE
-   Summer 2023 */
+   Keith Lee
+   Summer 2024 */
 
 /* This file contains flex input file */
 
@@ -44,6 +44,7 @@ punc		[\(\),:;]
 "~"		{ ECHO; yylval.oper = NEG; return(NEGOP); }
 "&"		{ ECHO; yylval.oper = AND; return(ANDOP); }
 "|"		{ ECHO; yylval.oper = OR; return(OROP); }
+"!"		{ ECHO; yylval.oper = NOT; return(NOTOP); }
 "<"		{ ECHO; yylval.oper = LESS; return(RELOP); }
 "="             { ECHO; yylval.oper = EQUALS; return(RELOP); }
 "<>"            { ECHO; yylval.oper = NOTEQUALS; return(RELOP); }

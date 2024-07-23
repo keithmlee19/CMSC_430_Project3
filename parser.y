@@ -42,7 +42,7 @@ double result;
 
 %token <value> INT_LITERAL CHAR_LITERAL REAL_LITERAL
 
-%token <oper> ADDOP MULOP MODOP EXPOP NEGOP ANDOP OROP RELOP
+%token <oper> ADDOP MULOP MODOP EXPOP NEGOP ANDOP OROP NOTOP RELOP
 
 %token ARROW
 
@@ -50,7 +50,7 @@ double result;
 	REAL RETURNS RIGHT SWITCH THEN WHEN
 
 %type <value> body statement_ statement cases case expression term exp_term neg_term primary
-	 condition or_condition relation
+	 condition or_condition not_condition relation
 
 %type <list> list expressions
 
@@ -106,7 +106,11 @@ or_condition:
 	condition ;
 
 condition:
-	condition ANDOP relation {$$ = $1 && $2;} |
+	condition ANDOP not_condition {$$ = $1 && $2;} |
+	not_condition ;
+
+not_condition:
+	NOTOP relation {$$ = !($2);} |
 	relation ;
 
 relation:
