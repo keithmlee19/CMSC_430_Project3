@@ -19,6 +19,9 @@ double evaluateArithmetic(double left, Operators operator_, double right) {
 		case ADD:
 			result = left + right;
 			break;
+		case SUBTRACT:
+			result = left - right;
+			break;
 		case MULTIPLY:
 			result = left * right;
 			break;
