@@ -48,6 +48,7 @@ punc		[\(\),:;]
 "<>"            { ECHO; yylval.oper = NOTEQUALS; return(RELOP); }
 ">"             { ECHO; yylval.oper = GREATER; return(RELOP); }
 ">="            { ECHO; yylval.oper = GREATEREQUAL; return(RELOP); }
+"<="            { ECHO; yylval.oper = LESSEQUAL; return(RELOP); }
 "=>"		{ ECHO; return(ARROW); }
 begin		{ ECHO; return(BEGIN_); }
 case		{ ECHO; return(CASE); }
