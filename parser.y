@@ -42,7 +42,7 @@ double result;
 
 %token <value> INT_LITERAL CHAR_LITERAL REAL_LITERAL
 
-%token <oper> ADDOP MULOP MODOP EXPOP NEGOP ANDOP RELOP
+%token <oper> ADDOP MULOP MODOP EXPOP NEGOP ANDOP OROP RELOP
 
 %token ARROW
 
@@ -50,7 +50,7 @@ double result;
 	REAL RETURNS RIGHT SWITCH THEN WHEN
 
 %type <value> body statement_ statement cases case expression term exp_term neg_term primary
-	 condition relation
+	 condition or_condition relation
 
 %type <list> list expressions
 
@@ -91,7 +91,7 @@ statement_:
     
 statement:
 	expression |
-	WHEN condition ',' expression ':' expression {$$ = $2 ? $4 : $6;} |
+	WHEN or_condition ',' expression ':' expression {$$ = $2 ? $4 : $6;} |
 	SWITCH expression IS cases OTHERS ARROW statement ';' ENDSWITCH
 		{$$ = !isnan($4) ? $4 : $7;} ;
 cases:
@@ -99,14 +99,18 @@ cases:
 	%empty {$$ = NAN;} ;
 	
 case:
-	CASE INT_LITERAL ARROW statement ';' {$$ = $<value>-2 == $2 ? $4 : NAN;} ; 
+	CASE INT_LITERAL ARROW statement ';' {$$ = $<value>-2 == $2 ? $4 : NAN;} ;
+	
+or_condition:
+	or_condition OROP condition {$$ = $1 || $2;} |
+	condition ;
 
 condition:
 	condition ANDOP relation {$$ = $1 && $2;} |
 	relation ;
 
 relation:
-	'(' condition ')' {$$ = $2;} |
+	'(' or_condition ')' {$$ = $2;} |
 	expression RELOP expression {$$ = evaluateRelational($1, $2, $3);} ;
 
 expression:

@@ -43,6 +43,7 @@ punc		[\(\),:;]
 "^"		{ ECHO; yylval.oper = EXP; return(EXPOP); }
 "~"		{ ECHO; yylval.oper = NEG; return(NEGOP); }
 "&"		{ ECHO; yylval.oper = AND; return(ANDOP); }
+"|"		{ ECHO; yylval.oper = OR; return(OROP); }
 "<"		{ ECHO; yylval.oper = LESS; return(RELOP); }
 "="             { ECHO; yylval.oper = EQUALS; return(RELOP); }
 "<>"            { ECHO; yylval.oper = NOTEQUALS; return(RELOP); }
