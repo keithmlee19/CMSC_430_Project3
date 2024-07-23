@@ -56,6 +56,7 @@ begin		{ ECHO; return(BEGIN_); }
 case		{ ECHO; return(CASE); }
 character	{ ECHO; return(CHARACTER); }
 else		{ ECHO; return(ELSE); }
+elsif		{ ECHO; return(ELSIF); }
 end		{ ECHO; return(END); }
 endif		{ ECHO; return(ENDIF); }
 endswitch	{ ECHO; return(ENDSWITCH); }

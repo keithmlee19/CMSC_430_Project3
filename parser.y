@@ -49,8 +49,8 @@ double result;
 %token BEGIN_ CASE CHARACTER ELSE ELSIF END ENDFOLD ENDIF ENDSWITCH FOLD FUNCTION IF INTEGER IS LEFT LIST OF OTHERS
 	REAL RETURNS RIGHT SWITCH THEN WHEN
 
-%type <value> body statement_ statement cases case expression term exp_term neg_term primary
-	 condition or_condition not_condition relation
+%type <value> body statement_ statement cases case elsif_clauses elsif_clause
+	expression term exp_term neg_term primary condition or_condition not_condition relation
 
 %type <list> list expressions
 
@@ -94,7 +94,14 @@ statement:
 	WHEN or_condition ',' expression ':' expression {$$ = $2 ? $4 : $6;} |
 	SWITCH expression IS cases OTHERS ARROW statement_ ';' ENDSWITCH
 		{$$ = !isnan($4) ? $4 : $7;} |
-	IF or_condition THEN statement_ ELSE statement_ ENDIF {$$ = $2 ? $4 : $6;} ;
+	IF or_condition THEN statement_ elsif_clauses ELSE statement_ ENDIF {$$ = $2 ? $4 : !isnan($5) ? $5 : $7;} ;
+
+elsif_clauses:
+	elsif_clauses elsif_clause {$$ = !isnan($1) ? $1 : $2;} |
+	%empty {$$ = NAN;} ;
+
+elsif_clause:
+	ELSIF or_condition THEN statement ';' {$$ = $2 ? $4 : NAN;} ;
 	
 cases:
 	cases case {$$ = !isnan($1) ? $1 : $2;} |
