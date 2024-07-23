@@ -42,14 +42,14 @@ double result;
 
 %token <value> INT_LITERAL CHAR_LITERAL REAL_LITERAL
 
-%token <oper> ADDOP MULOP MODOP ANDOP RELOP
+%token <oper> ADDOP MULOP MODOP EXPOP ANDOP RELOP
 
 %token ARROW
 
 %token BEGIN_ CASE CHARACTER ELSE ELSIF END ENDFOLD ENDIF ENDSWITCH FOLD FUNCTION IF INTEGER IS LEFT LIST OF OTHERS
 	REAL RETURNS RIGHT SWITCH THEN WHEN
 
-%type <value> body statement_ statement cases case expression term primary
+%type <value> body statement_ statement cases case exp_term expression term primary
 	 condition relation
 
 %type <list> list expressions
@@ -114,8 +114,13 @@ expression:
 	term ;
       
 term:
-	term MULOP primary {$$ = evaluateArithmetic($1, $2, $3);}  |
-	term MODOP primary {$$ = evaluateArithmetic($1, $2, $3);}  |
+	term MULOP exp_term {$$ = evaluateArithmetic($1, $2, $3);}  |
+	term MODOP exp_term {$$ = evaluateArithmetic($1, $2, $3);}  |
+	exp_term ;
+
+// the only right associative binary operator
+exp_term:
+	primary EXPOP exp_term {$$ = evaluateArithmetic($1, $2, $3);} |
 	primary ;
 
 primary:

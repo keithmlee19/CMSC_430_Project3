@@ -31,6 +31,9 @@ double evaluateArithmetic(double left, Operators operator_, double right) {
 		case MOD:
 			result = fmod(left, right);
 			break;
+		case EXP:
+			result = pow(left, right);
+			break;
 	}
 	return result;
 }
