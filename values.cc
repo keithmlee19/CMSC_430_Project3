@@ -47,6 +47,9 @@ double evaluateRelational(double left, Operators operator_, double right) {
 		case LESS:
 			result = left < right;
 			break;
+		case EQUALS:
+			result = left == right;
+			break;
 	}
 	return result;
 }

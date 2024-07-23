@@ -1,0 +1,6 @@
+// Test Equals Operator
+
+function main returns integer;
+begin
+    when 6 = 6, 1 : 0;
+end;
