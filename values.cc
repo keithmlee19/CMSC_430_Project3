@@ -56,6 +56,9 @@ double evaluateRelational(double left, Operators operator_, double right) {
 		case GREATER:
 			result = left > right;
 			break;
+		case GREATEREQUAL:
+			result = left >= right;
+			break;
 	}
 	return result;
 }

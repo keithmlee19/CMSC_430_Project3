@@ -1,0 +1,6 @@
+// Test Greater Than/Equal To Operator
+
+function main returns integer;
+begin
+    when 11 >= 10, 1 : 0;
+end;
