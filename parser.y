@@ -68,7 +68,7 @@ type:
 	REAL ;
 	
 optional_variable:
-	variable |
+	optional_variable variable |
 	%empty ;
 	
 variable:	
