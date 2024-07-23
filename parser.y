@@ -92,8 +92,10 @@ statement_:
 statement:
 	expression |
 	WHEN or_condition ',' expression ':' expression {$$ = $2 ? $4 : $6;} |
-	SWITCH expression IS cases OTHERS ARROW statement ';' ENDSWITCH
-		{$$ = !isnan($4) ? $4 : $7;} ;
+	SWITCH expression IS cases OTHERS ARROW statement_ ';' ENDSWITCH
+		{$$ = !isnan($4) ? $4 : $7;} |
+	IF or_condition THEN statement_ ELSE statement_ ENDIF {$$ = $2 ? $4 : $6;} ;
+	
 cases:
 	cases case {$$ = !isnan($1) ? $1 : $2;} |
 	%empty {$$ = NAN;} ;

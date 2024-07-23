@@ -55,10 +55,13 @@ punc		[\(\),:;]
 begin		{ ECHO; return(BEGIN_); }
 case		{ ECHO; return(CASE); }
 character	{ ECHO; return(CHARACTER); }
+else		{ ECHO; return(ELSE); }
 end		{ ECHO; return(END); }
+endif		{ ECHO; return(ENDIF); }
 endswitch	{ ECHO; return(ENDSWITCH); }
 function	{ ECHO; return(FUNCTION); }
 integer		{ ECHO; return(INTEGER); }
+if		{ ECHO; return(IF); }
 is		{ ECHO; return(IS); }
 list		{ ECHO; return(LIST); }
 of		{ ECHO; return(OF); }
@@ -66,6 +69,7 @@ others		{ ECHO; return(OTHERS); }
 real		{ ECHO; return(REAL); }
 returns		{ ECHO; return(RETURNS); }
 switch		{ ECHO; return(SWITCH); }
+then		{ ECHO; return(THEN); }
 when		{ ECHO; return(WHEN); }
 
 {id}		{ ECHO; yylval.iden = (CharPtr)malloc(yyleng + 1); 
