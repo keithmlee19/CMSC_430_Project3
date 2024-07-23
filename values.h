@@ -8,7 +8,7 @@
 
 typedef char* CharPtr;
 
-enum Operators {ADD, SUBTRACT, MULTIPLY, DIVIDE, LESS, AND};
+enum Operators {ADD, SUBTRACT, MULTIPLY, DIVIDE, MOD, LESS, AND};
 
 double evaluateArithmetic(double left, Operators operator_, double right);
 double evaluateRelational(double left, Operators operator_, double right);

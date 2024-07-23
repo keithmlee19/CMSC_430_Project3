@@ -42,7 +42,7 @@ double result;
 
 %token <value> INT_LITERAL CHAR_LITERAL REAL_LITERAL
 
-%token <oper> ADDOP MULOP ANDOP RELOP
+%token <oper> ADDOP MULOP MODOP ANDOP RELOP
 
 %token ARROW
 
@@ -115,6 +115,7 @@ expression:
       
 term:
 	term MULOP primary {$$ = evaluateArithmetic($1, $2, $3);}  |
+	term MODOP primary {$$ = evaluateArithmetic($1, $2, $3);}  |
 	primary ;
 
 primary:

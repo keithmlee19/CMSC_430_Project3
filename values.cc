@@ -28,6 +28,9 @@ double evaluateArithmetic(double left, Operators operator_, double right) {
 		case DIVIDE:
 			result = left / right;
 			break;
+		case MOD:
+			result = fmod(left, right);
+			break;
 	}
 	return result;
 }
