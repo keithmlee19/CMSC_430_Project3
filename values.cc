@@ -25,6 +25,9 @@ double evaluateArithmetic(double left, Operators operator_, double right) {
 		case MULTIPLY:
 			result = left * right;
 			break;
+		case DIVIDE:
+			result = left / right;
+			break;
 	}
 	return result;
 }
