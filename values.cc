@@ -50,6 +50,9 @@ double evaluateRelational(double left, Operators operator_, double right) {
 		case EQUALS:
 			result = left == right;
 			break;
+		case NOTEQUALS:
+			result = left != right;
+			break;
 	}
 	return result;
 }
