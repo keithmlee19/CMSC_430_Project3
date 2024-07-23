@@ -41,6 +41,7 @@ punc		[\(\),:;]
 "/"		{ ECHO; yylval.oper = DIVIDE; return(MULOP); }
 "%"		{ ECHO; yylval.oper = MOD; return(MODOP); }
 "^"		{ ECHO; yylval.oper = EXP; return(EXPOP); }
+"~"		{ ECHO; yylval.oper = NEG; return(NEGOP); }
 "&"		{ ECHO; yylval.oper = AND; return(ANDOP); }
 "<"		{ ECHO; yylval.oper = LESS; return(RELOP); }
 "=>"		{ ECHO; return(ARROW); }

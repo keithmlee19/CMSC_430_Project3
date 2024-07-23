@@ -1,6 +1,6 @@
-// Tests Mod Operator
+// Tests Neg Operator
 
 function main returns integer;
 begin
-    5 % 2;
+    ~5;
 end;

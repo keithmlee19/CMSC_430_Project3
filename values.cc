@@ -34,6 +34,9 @@ double evaluateArithmetic(double left, Operators operator_, double right) {
 		case EXP:
 			result = pow(left, right);
 			break;
+		case NEG:
+			result = left * (-1);
+			break;
 	}
 	return result;
 }
