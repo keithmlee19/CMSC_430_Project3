@@ -27,6 +27,8 @@ Symbols<double> scalars;
 Symbols<vector<double>*> lists;
 double result;
 
+int* cl_args = new int[argc];
+
 %}
 
 %define parse.error verbose
@@ -57,10 +59,10 @@ double result;
 %%
 
 function:	
-	function_header optional_variable  body ';' {result = $3;} ;
+	function_header optional_variable body ';' {result = $3;} ;
 	
 function_header:	
-	FUNCTION IDENTIFIER RETURNS type ';' ;
+	FUNCTION IDENTIFIER parameters_ RETURNS type ';' ;
 
 type:
 	INTEGER |
@@ -81,6 +83,17 @@ list:
 expressions:
 	expressions ',' expression {$1->push_back($3); $$ = $1;} | 
 	expression {$$ = new vector<double>(); $$->push_back($1);}
+	
+parameters_:
+	parameters |
+	%empty;
+
+parameters:
+	parameters ',' parameter |
+	parameter ;
+
+parameter:
+	IDENTIFIER ':' type ;
 
 body:
 	BEGIN_ statement_ END {$$ = $2;} ;
@@ -167,6 +180,9 @@ double extract_element(CharPtr list_name, double subscript) {
 }
 
 int main(int argc, char *argv[]) {
+	for (int i = 0; i < argc; i++) {
+		cl_args[i] = atof(argv[i]);
+	}
 	firstLine();
 	yyparse();
 	if (lastLine() == 0)
