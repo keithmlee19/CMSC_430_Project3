@@ -53,6 +53,7 @@ int* cl_args = new int[argc];
 
 %type <value> body statement_ statement cases case elsif_clauses elsif_clause
 	expression term exp_term neg_term primary condition or_condition not_condition relation
+	parameters_ parameters parameter
 
 %type <list> list expressions
 
