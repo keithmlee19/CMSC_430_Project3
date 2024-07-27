@@ -38,6 +38,7 @@ int parameterCount;
 %union {
 	CharPtr iden;
 	Operators oper;
+	Fold_Dirs dir;
 	double value;
 	vector<double>* list;
 }
@@ -46,17 +47,21 @@ int parameterCount;
 
 %token <value> INT_LITERAL CHAR_LITERAL REAL_LITERAL
 
-%token <oper> ADDOP MULOP MODOP EXPOP NEGOP ANDOP OROP NOTOP RELOP
+%token <oper> ADDOP MULOP MODOP EXPOP ANDOP OROP RELOP NEGOP NOTOP
 
 %token ARROW
 
 %token BEGIN_ CASE CHARACTER ELSE ELSIF END ENDFOLD ENDIF ENDSWITCH FOLD FUNCTION IF INTEGER IS LEFT LIST OF OTHERS
 	REAL RETURNS RIGHT SWITCH THEN WHEN
 
-%type <value> body statement_ statement cases case elsif_clauses elsif_clause
+%type <value> body statement_ statement cases case elsif_clauses elsif_clause 
 	expression term exp_term neg_term primary condition or_condition not_condition relation
+	
+%type <oper> operator
 
-%type <list> list expressions
+%type <list> list list_choice expressions
+
+%type <dir> direction
 
 %%
 
@@ -109,7 +114,8 @@ statement:
 	WHEN or_condition ',' expression ':' expression {$$ = $2 ? $4 : $6;} |
 	SWITCH expression IS cases OTHERS ARROW statement_ ';' ENDSWITCH
 		{$$ = !isnan($4) ? $4 : $7;} |
-	IF or_condition THEN statement_ elsif_clauses ELSE statement_ ENDIF {$$ = $2 ? $4 : !isnan($5) ? $5 : $7;} ;
+	IF or_condition THEN statement_ elsif_clauses ELSE statement_ ENDIF {$$ = $2 ? $4 : !isnan($5) ? $5 : $7;} |
+	FOLD direction operator list_choice ENDFOLD {$$ = evaluateFold($2, $3, *$4);} ;
 
 elsif_clauses:
 	elsif_clauses elsif_clause {$$ = !isnan($1) ? $1 : $2;} |
@@ -124,6 +130,19 @@ cases:
 	
 case:
 	CASE INT_LITERAL ARROW statement ';' {$$ = $<value>-2 == $2 ? $4 : NAN;} ;
+
+direction:
+	LEFT {$$ = LEFT_DIR;} |
+	RIGHT {$$ = RIGHT_DIR;} ;
+
+operator:
+	ADDOP |
+	MULOP |
+	EXPOP ;
+
+list_choice:
+	list |
+	IDENTIFIER {if (!lists.find($1, $$)) appendError(UNDECLARED, $1);} ;
 	
 or_condition:
 	or_condition OROP condition {$$ = $1 || $2;} |

@@ -7,6 +7,9 @@
 
 #include <string>
 #include <cmath>
+#include <numeric>
+#include <vector>
+#include <functional>
 
 using namespace std;
 
@@ -62,6 +65,56 @@ double evaluateRelational(double left, Operators operator_, double right) {
 		case LESSEQUAL:
 			result = left <= right;
 			break;
+	}
+	return result;
+}
+
+double evaluateFold(Fold_Dirs fold_dir, Operators operator_, vector<double> list) {
+	double result;
+	int n = list.size();
+	if (fold_dir == LEFT_DIR) {
+		switch (operator_) {
+			case ADD:
+				result = accumulate(list.begin(), list.end(), 0, plus<double>());
+				break;
+			case SUBTRACT:
+				result = accumulate(list.begin(), list.end(), list[0]*2, minus<double>());
+				break;
+			case MULTIPLY:
+				result = accumulate(list.begin(), list.end(), 1, multiplies<double>());
+				break;
+			case DIVIDE:
+				result = accumulate(list.begin(), list.end(), list[0]*list[0], divides<double>());
+				break;
+			case EXP:
+			{
+				auto expf = [](double lhs, double rhs) {return pow(lhs, rhs); };
+				result = accumulate(list.begin(), list.end(), pow(list[0], 1.0/list[0]), expf);
+				break;
+			}
+		}
+	}
+	else {
+		switch (operator_) {
+			case ADD:
+				result = accumulate(list.rbegin(), list.rend(), 0, plus<double>());
+				break;
+			case SUBTRACT:
+				result = accumulate(list.rbegin(), list.rend(), list[n-1]*2, minus<double>());
+				break;
+			case MULTIPLY:
+				result = accumulate(list.rbegin(), list.rend(), 1, multiplies<double>());
+				break;
+			case DIVIDE:
+				result = accumulate(list.rbegin(), list.rend(), list[n-1]*list[n-1], divides<double>());
+				break;
+			case EXP:
+			{
+				auto expf = [](double lhs, double rhs) {return pow(lhs, rhs); };
+				result = accumulate(list.rbegin(), list.rend(), list[n-1], expf);
+				break;
+			}
+		}
 	}
 	return result;
 }

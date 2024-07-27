@@ -62,11 +62,11 @@ extern int yydebug;
     MULOP = 263,                   /* MULOP  */
     MODOP = 264,                   /* MODOP  */
     EXPOP = 265,                   /* EXPOP  */
-    NEGOP = 266,                   /* NEGOP  */
-    ANDOP = 267,                   /* ANDOP  */
-    OROP = 268,                    /* OROP  */
-    NOTOP = 269,                   /* NOTOP  */
-    RELOP = 270,                   /* RELOP  */
+    ANDOP = 266,                   /* ANDOP  */
+    OROP = 267,                    /* OROP  */
+    RELOP = 268,                   /* RELOP  */
+    NEGOP = 269,                   /* NEGOP  */
+    NOTOP = 270,                   /* NOTOP  */
     ARROW = 271,                   /* ARROW  */
     BEGIN_ = 272,                  /* BEGIN_  */
     CASE = 273,                    /* CASE  */
@@ -104,10 +104,11 @@ union YYSTYPE
 
 	CharPtr iden;
 	Operators oper;
+	Fold_Dirs dir;
 	double value;
 	vector<double>* list;
 
-#line 111 "parser.tab.h"
+#line 112 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

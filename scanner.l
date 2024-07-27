@@ -46,11 +46,11 @@ punc		[\(\),:;]
 "|"		{ ECHO; yylval.oper = OR; return(OROP); }
 "!"		{ ECHO; yylval.oper = NOT; return(NOTOP); }
 "<"		{ ECHO; yylval.oper = LESS; return(RELOP); }
-"="             { ECHO; yylval.oper = EQUALS; return(RELOP); }
-"<>"            { ECHO; yylval.oper = NOTEQUALS; return(RELOP); }
-">"             { ECHO; yylval.oper = GREATER; return(RELOP); }
-">="            { ECHO; yylval.oper = GREATEREQUAL; return(RELOP); }
-"<="            { ECHO; yylval.oper = LESSEQUAL; return(RELOP); }
+"="		{ ECHO; yylval.oper = EQUALS; return(RELOP); }
+"<>"		{ ECHO; yylval.oper = NOTEQUALS; return(RELOP); }
+">"		{ ECHO; yylval.oper = GREATER; return(RELOP); }
+">="		{ ECHO; yylval.oper = GREATEREQUAL; return(RELOP); }
+"<="		{ ECHO; yylval.oper = LESSEQUAL; return(RELOP); }
 "=>"		{ ECHO; return(ARROW); }
 begin		{ ECHO; return(BEGIN_); }
 case		{ ECHO; return(CASE); }
@@ -58,17 +58,21 @@ character	{ ECHO; return(CHARACTER); }
 else		{ ECHO; return(ELSE); }
 elsif		{ ECHO; return(ELSIF); }
 end		{ ECHO; return(END); }
+endfold		{ ECHO; return(ENDFOLD); }
 endif		{ ECHO; return(ENDIF); }
 endswitch	{ ECHO; return(ENDSWITCH); }
+fold		{ ECHO; return(FOLD); }
 function	{ ECHO; return(FUNCTION); }
 integer		{ ECHO; return(INTEGER); }
 if		{ ECHO; return(IF); }
 is		{ ECHO; return(IS); }
+left		{ ECHO; return(LEFT); }
 list		{ ECHO; return(LIST); }
 of		{ ECHO; return(OF); }
 others		{ ECHO; return(OTHERS); }
 real		{ ECHO; return(REAL); }
 returns		{ ECHO; return(RETURNS); }
+right		{ ECHO; return(RIGHT); }
 switch		{ ECHO; return(SWITCH); }
 then		{ ECHO; return(THEN); }
 when		{ ECHO; return(WHEN); }
