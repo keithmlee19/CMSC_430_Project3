@@ -1,0 +1,7 @@
+// Test Right Fold
+
+function main returns real;
+    values: list of real is (3, 2, 1);
+begin
+    fold right / values endfold;
+end;
