@@ -1,7 +1,7 @@
 // Test Left Fold
 
 function main returns real;
-    values: list of real is (3, 2, 1);
+    values: list of real is (4, 3, 2);
 begin
     fold left / values endfold;
 end;

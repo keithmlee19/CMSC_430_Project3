@@ -16,6 +16,8 @@ using namespace std;
 #include "listing.h"
 #include "tokens.h"
 
+char returnEscapeChar(char* chartext);
+
 %}
 
 %option noyywrap
@@ -28,7 +30,7 @@ digit		[0-9]
 dec		{digit}+
 hex		#[A-Fa-f0-9]+
 real		[0-9]*\.[0-9]+([eE][+-]?[0-9]+)*
-char		'(\\b|\\t|\\n|\\f|\\B|.)'
+char		'(\\b|\\t|\\n|\\f|\\r|.)'
 punc		[\(\),:;]
 %%
 
@@ -82,8 +84,23 @@ when		{ ECHO; return(WHEN); }
 {dec}		{ ECHO; yylval.value = atoi(yytext); return(INT_LITERAL); }
 {hex}		{ ECHO; std::string s = yytext; yylval.value = stoi(s.substr(1),nullptr,16); return(INT_LITERAL); }
 {real}		{ ECHO; yylval.value = atof(yytext); return(REAL_LITERAL); }
-{char}		{ ECHO; yylval.value = yytext[1]; return(CHAR_LITERAL); }
+{char}		{ ECHO; yylval.value = returnEscapeChar(yytext); return(CHAR_LITERAL); }
 {punc}		{ ECHO; return(yytext[0]); }
 .		{ ECHO; appendError(LEXICAL, yytext); }
 %%
+
+char returnEscapeChar(char* chartext) {
+	char escChars[] = "btnrf";
+	if (chartext[1] == '\\') {
+		for (int j = 0; j < 5; j++) {
+			if (chartext[2] == escChars[j]) {
+				return j + 8;
+			}
+		}
+	}
+	else {
+		return chartext[1];
+	}
+	return 0;
+}
 
