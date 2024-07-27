@@ -36,7 +36,7 @@ Grammar
 
    21 statement: expression
    22          | WHEN or_condition ',' expression ':' expression
-   23          | SWITCH expression IS cases OTHERS ARROW statement_ ';' ENDSWITCH
+   23          | SWITCH expression IS cases OTHERS ARROW statement_ ENDSWITCH
    24          | IF or_condition THEN statement_ elsif_clauses ELSE statement_ ENDIF
    25          | FOLD direction operator list_choice ENDFOLD
 
@@ -100,7 +100,7 @@ Terminals, with rules where they appear
     ')' (41) 10 45 56 60
     ',' (44) 11 15 22
     ':' (58) 8 9 17 22
-    ';' (59) 1 2 8 9 19 20 23 28 31
+    ';' (59) 1 2 8 9 19 20 28 31
     error (256) 20
     IDENTIFIER <iden> (258) 2 8 9 17 38 60 61
     INT_LITERAL <value> (259) 31 57
@@ -508,7 +508,7 @@ State 26
 
 State 27
 
-   23 statement: SWITCH • expression IS cases OTHERS ARROW statement_ ';' ENDSWITCH
+   23 statement: SWITCH • expression IS cases OTHERS ARROW statement_ ENDSWITCH
 
     IDENTIFIER    shift, and go to state 20
     INT_LITERAL   shift, and go to state 21
@@ -832,7 +832,7 @@ State 58
 
 State 59
 
-   23 statement: SWITCH expression • IS cases OTHERS ARROW statement_ ';' ENDSWITCH
+   23 statement: SWITCH expression • IS cases OTHERS ARROW statement_ ENDSWITCH
    47 expression: expression • ADDOP term
 
     ADDOP  shift, and go to state 64
@@ -1133,7 +1133,7 @@ State 82
 
 State 83
 
-   23 statement: SWITCH expression IS • cases OTHERS ARROW statement_ ';' ENDSWITCH
+   23 statement: SWITCH expression IS • cases OTHERS ARROW statement_ ENDSWITCH
 
     $default  reduce using rule 30 (cases)
 
@@ -1304,7 +1304,7 @@ State 101
 
 State 102
 
-   23 statement: SWITCH expression IS cases • OTHERS ARROW statement_ ';' ENDSWITCH
+   23 statement: SWITCH expression IS cases • OTHERS ARROW statement_ ENDSWITCH
    29 cases: cases • case
 
     CASE    shift, and go to state 110
@@ -1384,7 +1384,7 @@ State 110
 
 State 111
 
-   23 statement: SWITCH expression IS cases OTHERS • ARROW statement_ ';' ENDSWITCH
+   23 statement: SWITCH expression IS cases OTHERS • ARROW statement_ ENDSWITCH
 
     ARROW  shift, and go to state 121
 
@@ -1510,7 +1510,7 @@ State 120
 
 State 121
 
-   23 statement: SWITCH expression IS cases OTHERS ARROW • statement_ ';' ENDSWITCH
+   23 statement: SWITCH expression IS cases OTHERS ARROW • statement_ ENDSWITCH
 
     error         shift, and go to state 19
     IDENTIFIER    shift, and go to state 20
@@ -1601,9 +1601,9 @@ State 127
 
 State 128
 
-   23 statement: SWITCH expression IS cases OTHERS ARROW statement_ • ';' ENDSWITCH
+   23 statement: SWITCH expression IS cases OTHERS ARROW statement_ • ENDSWITCH
 
-    ';'  shift, and go to state 132
+    ENDSWITCH  shift, and go to state 132
 
 
 State 129
@@ -1645,16 +1645,16 @@ State 131
 
 State 132
 
-   23 statement: SWITCH expression IS cases OTHERS ARROW statement_ ';' • ENDSWITCH
+   23 statement: SWITCH expression IS cases OTHERS ARROW statement_ ENDSWITCH •
 
-    ENDSWITCH  shift, and go to state 135
+    $default  reduce using rule 23 (statement)
 
 
 State 133
 
    28 elsif_clause: ELSIF or_condition THEN statement • ';'
 
-    ';'  shift, and go to state 136
+    ';'  shift, and go to state 135
 
 
 State 134
@@ -1665,13 +1665,6 @@ State 134
 
 
 State 135
-
-   23 statement: SWITCH expression IS cases OTHERS ARROW statement_ ';' ENDSWITCH •
-
-    $default  reduce using rule 23 (statement)
-
-
-State 136
 
    28 elsif_clause: ELSIF or_condition THEN statement ';' •
 

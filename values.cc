@@ -72,26 +72,9 @@ double evaluateRelational(double left, Operators operator_, double right) {
 double evaluateFold(Fold_Dirs fold_dir, Operators operator_, vector<double> list) {
 	double result;
 	if (fold_dir == LEFT_DIR) {
-		switch (operator_) {
-			case ADD:
-				result = accumulate(list.begin(), list.end(), 0, plus<double>());
-				break;
-			case SUBTRACT:
-				result = accumulate(list.begin(), list.end(), list[0]*2, minus<double>());
-				break;
-			case MULTIPLY:
-				result = accumulate(list.begin(), list.end(), 1, multiplies<double>());
-				break;
-			case DIVIDE:
-				result = accumulate(list.begin(), list.end(), list[0]*list[0], divides<double>());
-				break;
-			case EXP:
-			{
-				auto expf = [](double lhs, double rhs) {return pow(lhs, rhs); };
-				result = accumulate(list.begin(), list.end(), pow(list[0], 1.0/list[0]), expf);
-				break;
-			}
-		}
+		result = list[0];
+		for (int i = 1; i < list.size(); i++) 
+			result = evaluateArithmetic(result, operator_, list[i]);
 	}
 	else {
 		result = list[list.size() - 1];

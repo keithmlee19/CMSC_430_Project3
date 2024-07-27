@@ -112,7 +112,7 @@ statement_:
 statement:
 	expression |
 	WHEN or_condition ',' expression ':' expression {$$ = $2 ? $4 : $6;} |
-	SWITCH expression IS cases OTHERS ARROW statement_ ';' ENDSWITCH
+	SWITCH expression IS cases OTHERS ARROW statement_ ENDSWITCH
 		{$$ = !isnan($4) ? $4 : $7;} |
 	IF or_condition THEN statement_ elsif_clauses ELSE statement_ ENDIF {$$ = $2 ? $4 : !isnan($5) ? $5 : $7;} |
 	FOLD direction operator list_choice ENDFOLD {$$ = evaluateFold($2, $3, *$4);} ;

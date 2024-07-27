@@ -535,7 +535,7 @@ union yyalloc
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  62
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  137
+#define YYNSTATES  136
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   295
@@ -658,8 +658,8 @@ static const yytype_int16 yypact[] =
      110,    98,   -68,   -68,    37,   -68,   118,   -68,   127,   -68,
      -68,   125,    70,    21,    99,   -68,    82,   125,   -68,   108,
      139,   128,   -68,    37,   105,   -68,    37,     6,    33,   -68,
-     129,     6,   125,   -68,   125,   124,    62,    67,   111,   -68,
-      67,   112,   122,   114,   -68,   -68,   -68
+     129,     6,   125,   -68,   125,   124,    62,    67,   122,   -68,
+      67,   111,   -68,   112,   -68,   -68
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -680,7 +680,7 @@ static const yytype_int8 yydefact[] =
       42,    47,     0,     0,     0,     9,     0,    13,    26,     0,
        0,     0,    30,     0,     0,    11,     0,     0,     0,    27,
        0,     0,    23,    10,    12,     0,     0,     0,     0,    25,
-       0,     0,     0,     0,    32,    24,    29
+       0,     0,    24,     0,    32,    29
 };
 
 /* YYPGOTO[NTERM-NUM].  */
@@ -688,7 +688,7 @@ static const yytype_int16 yypgoto[] =
 {
      -68,   -68,   -68,   -10,   -68,   -68,    45,   -68,   -68,   -68,
      133,   -68,   -67,   -65,   -68,   -68,   -68,   -68,   -68,   -68,
-     -68,   -24,    77,    76,   107,   -26,    90,    12,   -68,   134
+     -68,   -24,    76,    77,   107,   -26,    90,    12,   -68,   132
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
@@ -718,8 +718,8 @@ static const yytype_uint8 yytable[] =
       29,    64,    39,    39,    46,    44,    63,    82,    40,    40,
       72,    73,    29,    74,    65,    66,   115,   116,   117,   118,
       47,    62,    64,    67,    68,    69,    70,    53,    81,   105,
-     104,   108,    94,   120,   121,   127,   123,   135,   129,   114,
-      43,     0,   132,   134,    86,   136,    98,   100,    48,    76
+     104,   108,    94,   120,   121,   127,   123,   132,   129,   114,
+      43,     0,   134,   135,    86,    98,    48,     0,   100,    76
 };
 
 static const yytype_int16 yycheck[] =
@@ -739,7 +739,7 @@ static const yytype_int16 yycheck[] =
        7,     8,    43,    10,     8,     9,    44,    45,    20,    21,
       43,    22,     7,    10,    41,    33,    30,    43,    11,    41,
       30,    23,    43,     4,    16,    16,    41,    25,    24,   104,
-      17,    -1,    41,    41,    64,    41,    79,    81,    24,    52
+      17,    -1,    41,    41,    64,    79,    24,    -1,    81,    52
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
@@ -759,7 +759,7 @@ static const yytype_int8 yystos[] =
       69,    71,    62,    71,    30,    41,    53,    71,    23,    60,
       18,    34,    63,    42,    52,    44,    45,    20,    21,    61,
        4,    16,    71,    41,    71,    58,    67,    16,    58,    24,
-      39,    59,    41,    59,    41,    25,    41
+      39,    59,    25,    59,    41,    41
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
@@ -779,7 +779,7 @@ static const yytype_int8 yyr2[] =
 {
        0,     2,     4,     6,     1,     1,     1,     2,     0,     6,
        8,     3,     3,     1,     1,     0,     3,     1,     3,     3,
-       2,     2,     1,     6,     9,     8,     5,     2,     0,     5,
+       2,     2,     1,     6,     8,     8,     5,     2,     0,     5,
        2,     0,     5,     1,     1,     1,     1,     1,     1,     1,
        3,     1,     3,     1,     2,     1,     3,     3,     3,     1,
        3,     3,     1,     3,     1,     2,     1,     3,     1,     1,
@@ -1576,9 +1576,9 @@ yyreduce:
 #line 1577 "parser.tab.c"
     break;
 
-  case 24: /* statement: SWITCH expression IS cases OTHERS ARROW statement_ ';' ENDSWITCH  */
+  case 24: /* statement: SWITCH expression IS cases OTHERS ARROW statement_ ENDSWITCH  */
 #line 116 "parser.y"
-                {(yyval.value) = !isnan((yyvsp[-5].value)) ? (yyvsp[-5].value) : (yyvsp[-2].value);}
+                {(yyval.value) = !isnan((yyvsp[-4].value)) ? (yyvsp[-4].value) : (yyvsp[-1].value);}
 #line 1583 "parser.tab.c"
     break;
 
