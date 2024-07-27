@@ -27,7 +27,9 @@ Symbols<double> scalars;
 Symbols<vector<double>*> lists;
 double result;
 
-int* cl_args = new int[argc];
+double* cl_args;
+int parameterNo = 0;
+int parameterCount;
 
 %}
 
@@ -53,7 +55,6 @@ int* cl_args = new int[argc];
 
 %type <value> body statement_ statement cases case elsif_clauses elsif_clause
 	expression term exp_term neg_term primary condition or_condition not_condition relation
-	parameters_ parameters parameter
 
 %type <list> list expressions
 
@@ -63,7 +64,7 @@ function:
 	function_header optional_variable body ';' {result = $3;} ;
 	
 function_header:	
-	FUNCTION IDENTIFIER parameters_ RETURNS type ';' ;
+	FUNCTION IDENTIFIER optional_params RETURNS type ';' ;
 
 type:
 	INTEGER |
@@ -85,16 +86,16 @@ expressions:
 	expressions ',' expression {$1->push_back($3); $$ = $1;} | 
 	expression {$$ = new vector<double>(); $$->push_back($1);}
 	
-parameters_:
+optional_params:
 	parameters |
-	%empty;
+	%empty ;
 
 parameters:
 	parameters ',' parameter |
 	parameter ;
 
 parameter:
-	IDENTIFIER ':' type ;
+	IDENTIFIER ':' type {if (parameterNo < parameterCount) scalars.insert($1, cl_args[parameterNo++]);} ;
 
 body:
 	BEGIN_ statement_ END {$$ = $2;} ;
@@ -181,8 +182,10 @@ double extract_element(CharPtr list_name, double subscript) {
 }
 
 int main(int argc, char *argv[]) {
-	for (int i = 0; i < argc; i++) {
-		cl_args[i] = atof(argv[i]);
+	cl_args = new double[argc-1];
+	parameterCount = argc - 1;
+	for (int i = 0; i < argc-1; i++) {
+		cl_args[i] = atof(argv[i+1]);
 	}
 	firstLine();
 	yyparse();
