@@ -54,7 +54,7 @@ int parameterCount;
 %token BEGIN_ CASE CHARACTER ELSE ELSIF END ENDFOLD ENDIF ENDSWITCH FOLD FUNCTION IF INTEGER IS LEFT LIST OF OTHERS
 	REAL RETURNS RIGHT SWITCH THEN WHEN
 
-%type <value> body statement_ statement cases case elsif_clauses elsif_clause 
+%type <value> body statement_ statement cases case case_ elsif_clauses elsif_clause 
 	expression term exp_term neg_term primary condition or_condition not_condition relation
 	
 %type <oper> operator
@@ -66,7 +66,7 @@ int parameterCount;
 %%
 
 function:	
-	function_header optional_variable body ';' {result = $3;} ;
+	function_header optional_variable_ body ';' {result = $3;} ;
 	
 function_header:	
 	FUNCTION IDENTIFIER optional_params RETURNS type ';' ;
@@ -76,10 +76,14 @@ type:
 	CHARACTER |
 	REAL ;
 	
+optional_variable_:
+	optional_variable |
+	error ';' ;
+	
 optional_variable:
 	optional_variable variable |
 	%empty ;
-	
+
 variable:	
 	IDENTIFIER ':' type IS statement ';' {scalars.insert($1, $5);}; |
 	IDENTIFIER ':' LIST OF type IS list ';' {lists.insert($1, $7);} ;
@@ -122,11 +126,15 @@ elsif_clauses:
 	%empty {$$ = NAN;} ;
 
 elsif_clause:
-	ELSIF or_condition THEN statement ';' {$$ = $2 ? $4 : NAN;} ;
+	ELSIF or_condition THEN statement_ {$$ = $2 ? $4 : NAN;} ;
 	
 cases:
-	cases case {$$ = !isnan($1) ? $1 : $2;} |
+	cases case_ {$$ = !isnan($1) ? $1 : $2;} |
 	%empty {$$ = NAN;} ;
+
+case_:
+	case |
+	error ';' {$$ = 0;} ;
 	
 case:
 	CASE INT_LITERAL ARROW statement ';' {$$ = $<value>-2 == $2 ? $4 : NAN;} ;
@@ -145,11 +153,11 @@ list_choice:
 	IDENTIFIER {if (!lists.find($1, $$)) appendError(UNDECLARED, $1);} ;
 	
 or_condition:
-	or_condition OROP condition {$$ = $1 || $2;} |
+	or_condition OROP condition {$$ = $1 || $3;} |
 	condition ;
 
 condition:
-	condition ANDOP not_condition {$$ = $1 && $2;} |
+	condition ANDOP not_condition {$$ = $1 && $3;} |
 	not_condition ;
 
 not_condition:
